@@ -1,6 +1,8 @@
+const gallery = document.querySelector('.gallery');
+let lightbox;
+
 export function renderImages(images) {
-  const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = images
+  const markup = images
     .map(
       ({
         webformatURL,
@@ -10,18 +12,33 @@ export function renderImages(images) {
         views,
         comments,
         downloads,
-      }) => `
-    <div class="photo-card">
-      <a href="${largeImageURL}">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-      </a>
-      <div class="info">
-        <p><b>Likes:</b> ${likes}</p>
-        <p><b>Views:</b> ${views}</p>
-        <p><b>Comments:</b> ${comments}</p>
-        <p><b>Downloads:</b> ${downloads}</p>
-      </div>
-    </div>`
+      }) => {
+        return `
+      <li class="gallery__item">
+        <a href="${largeImageURL}">
+          <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>
+        <div class="info">
+          <p><b>Likes</b> ${likes}</p>
+          <p><b>Views</b> ${views}</p>
+          <p><b>Comments</b> ${comments}</p>
+          <p><b>Downloads</b> ${downloads}</p>
+        </div>
+      </li>
+    `;
+      }
     )
     .join('');
+
+  gallery.innerHTML = markup;
+
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a');
+  } else {
+    lightbox.refresh();
+  }
+}
+
+export function clearGallery() {
+  gallery.innerHTML = '';
 }
