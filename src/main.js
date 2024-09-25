@@ -26,7 +26,9 @@ form.addEventListener('submit', async e => {
       iziToast.warning({ message: 'Sorry, no images found!' });
     } else {
       renderImages(hits);
-      new SimpleLightbox('.gallery a').refresh();
+
+      const lightbox = new SimpleLightbox('.gallery a');
+      lightbox.refresh();
     }
   } catch (error) {
     iziToast.error({ message: 'Something went wrong!' });
